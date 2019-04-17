@@ -60,7 +60,10 @@ EE_SRCS += ee_cortex_m_irqstub.c
 EE_SRCS += ee_cortex_m_system.c
 #[GS]: Not used for now!
 #EE_SRCS += ee_cortex_m_utils.c
-
+#########################################
+#include arti source
+EE_SRCS += Arti.c
+##########################################
 EE_SRCS += ee_cortex_m_change_context.c
 
 ifeq	($(call iseeopt, OSEE_HAS_SYSTEM_TIMER), yes)

@@ -49,7 +49,13 @@
 ## \date	2018
 
 ifeq	($(call iseeopt, OS_EE_ARCH_CORTEX_M), yes)
+#########################################
+#include arti header
+OS_EE_PULL_SRC_FILES += $(ERIKA_FILES)/pkg/arch/cortex-m/Arti.h
 
+#include arti source
+OS_EE_PULL_SRC_FILES += $(ERIKA_FILES)/pkg/arch/cortex-m/Arti.c
+##########################################
 OS_EE_PULL_MK_FILES += $(ERIKA_FILES)/pkg/arch/cortex-m/ee_arch_rules.mk
 OS_EE_PULL_MK_FILES += $(ERIKA_FILES)/pkg/arch/cortex-m/ee_arch_cfg.mk
 OS_EE_PULL_MK_FILES += $(ERIKA_FILES)/pkg/arch/cortex-m/ee_arch_compiler_gcc.mk

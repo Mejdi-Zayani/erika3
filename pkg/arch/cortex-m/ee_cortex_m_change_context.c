@@ -75,7 +75,30 @@ FUNC(void, OS_CODE)
   }
 
   p_to = osEE_scheduler_task_terminated(osEE_get_kernel(), &p_from);
+/**************************************ARTI TASK STOP *******************************************/
+ /*      macro to record state transition from running to terminated         */ 
+#if (defined(AR_CP_OS_TASKSCHEDULER_OsTask_Stop_NOSUSP))
+  SuspendAllInterrupts() ;
+  if ((p_from)->task_type != OSEE_TASK_TYPE_ISR2){
+    ARTI_TRACE(NOSUSP, AR_CP_OS_TASKSCHEDULER, OS_SHORT_NAME,
+            OS_CORE_ID, OsTask_Stop,(uint32_t) (p_from)->tid);
 
+  }
+  ResumeAllInterrupts();
+#endif
+/************************************************************************************************/
+
+/**************************************ARTI ISR2 STOP*******************************************/
+/*      macro to record state transition from running to terminated         */ 
+#if (defined(AR_CP_OS_CAT2DISPATCHER_OsIsr2_Stop_NOSUSP))
+  SuspendAllInterrupts() ;
+  if (p_from->task_type == OSEE_TASK_TYPE_ISR2){
+    ARTI_TRACE(NOSUSP, AR_CP_OS_CAT2DISPATCHER, OS_SHORT_NAME,
+            OS_CORE_ID, OsIsr2_Stop,(uint32_t)p_from->tid);
+  }
+  ResumeAllInterrupts();
+#endif
+/************************************************************************************************/
   if (p_from->task_type != OSEE_TASK_TYPE_ISR2) {
     osEE_change_context_from_task_end(p_from, p_to);
   } else {

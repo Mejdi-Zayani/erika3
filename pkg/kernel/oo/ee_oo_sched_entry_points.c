@@ -52,6 +52,13 @@
  */
 
 #include "ee_internal.h"
+/*******************************************************************/
+/* this variable will be used to store the id of the released task 
+   from the function osEE_scheduler_task_unblocked () 
+*/
+uint32_t p_resuming_id =0xFFFFFFFF;
+/*******************************************************************/
+
 
 #if (defined(OSEE_HAS_RESOURCES)) || (defined(OSEE_HAS_SPINLOCKS))
 static FUNC_P2VAR(OsEE_MDB, OS_APPL_CONST, OS_CODE)
@@ -214,10 +221,46 @@ FUNC(void, OS_CODE)
   }
 
 #endif /* OSEE_HAS_ORTI */
-
+  /* this variable (State) is added to test if the running task was released or activated
+   if it was activated then we will use OsTask_Start macro
+   else we will use OsTask_Resuming macro                */
+  VAR(TaskStateType, TYPEDEF) State = p_tdb_to->p_tcb->status;
   /* Set the TASK status to RUNNING. Before calling PreTaskHook */
   p_tdb_to->p_tcb->status = OSEE_TASK_RUNNING;
+/**************************************ARTI TASK START *******************************************/
+  /* macro to record task state transition from activated (Ready) to Running*/
+#if  (defined(AR_CP_OS_TASKSCHEDULER_OsTask_Start_NOSUSP))
+  SuspendAllInterrupts() ;
+  if (p_tdb_to->task_type < OSEE_TASK_TYPE_ISR2){
+    if(State!=OSEE_TASK_READY_STACKED){
+      ARTI_TRACE(NOSUSP, AR_CP_OS_TASKSCHEDULER, OS_SHORT_NAME,
+            OS_CORE_ID, OsTask_Start,(uint32_t) p_tdb_to->tid);
+    }
+  }
+    else if (p_tdb_to->task_type > OSEE_TASK_TYPE_ISR2){
+      ARTI_TRACE(NOSUSP, AR_CP_OS_TASKSCHEDULER, OS_SHORT_NAME,
+            OS_CORE_ID, OsTask_Start,(uint32_t) p_tdb_to->tid);
+    }
+  
+  ResumeAllInterrupts();
+#endif
+/*************************************************************************************************************/
 
+/**************************************ARTI TASK RESUMING *******************************************/
+  /* macro to record task state transition from Released (Ready) to Running*/
+  /* Released: Continuation of a terminating task which previously was in the waiting state */
+#if  (defined(AR_CP_OS_TASKSCHEDULER_OsTask_Resuming_NOSUSP))
+  SuspendAllInterrupts() ;
+  if (p_tdb_to->task_type < OSEE_TASK_TYPE_ISR2){
+   if((State == OSEE_TASK_READY_STACKED)&&(p_resuming_id == p_tdb_to->tid))
+   {
+     ARTI_TRACE(NOSUSP, AR_CP_OS_TASKSCHEDULER, OS_SHORT_NAME,
+            OS_CORE_ID, OsTask_Resuming,(uint32_t) p_tdb_to->tid);
+   }
+  }
+  ResumeAllInterrupts();
+#endif
+/*************************************************************************************************************/
   /* Call PreTaskHook only if I'm scheduling a real TASK not an ISR2 or the
    * Idle TASK */
 #if (defined(OSEE_HAS_PRETASKHOOK)) || (defined(OSEE_HAS_CONTEXT))

@@ -83,6 +83,17 @@ static FUNC(OsEE_bool, OS_CODE)
   if (p_tcb_act->status == OSEE_TASK_SUSPENDED) {
     p_tcb_act->status = OSEE_TASK_READY;
     osEE_task_event_reset_mask(p_tcb_act);
+/**************************************ARTI TASK ACTIVATION *******************************************/
+/* Macro to record state transition from Suspended to activated (Ready)   */
+#if (defined(AR_CP_OS_TASKSCHEDULER_OsTask_Activation_NOSUSP))
+  SuspendAllInterrupts() ;
+  if (p_tdb_act->task_type != OSEE_TASK_TYPE_ISR2){
+    ARTI_TRACE(NOSUSP, AR_CP_OS_TASKSCHEDULER, OS_SHORT_NAME,
+            OS_CORE_ID, OsTask_Activation,(uint32_t) (p_tdb_act->tid) );
+  }
+  ResumeAllInterrupts();
+#endif
+/******************************************************************************************************/
   }
 
   rq_head_changed = osEE_scheduler_rq_insert(&p_ccb->rq,
@@ -236,7 +247,17 @@ FUNC_P2VAR(OsEE_TDB, OS_APPL_DATA, OS_CODE)
   p_tdb_blocked->p_tcb->status = OSEE_TASK_WAITING;
 
   osEE_unlock_core(p_cdb);
-
+/**************************************ARTI TASK WAITING *******************************************/
+/* Macro to record state transition from Runing to Waiting */ 
+#if (defined(AR_CP_OS_TASKSCHEDULER_OsTask_Waiting_NOSUSP))
+  SuspendAllInterrupts() ;
+  if (p_tdb_blocked->task_type != OSEE_TASK_TYPE_ISR2){
+    ARTI_TRACE(NOSUSP, AR_CP_OS_TASKSCHEDULER, OS_SHORT_NAME,
+          OS_CORE_ID, OsTask_Waiting,(uint32_t) (p_tdb_blocked->tid) );
+  }
+  ResumeAllInterrupts();
+#endif
+/***************************************************************************************************/
   return p_ccb->p_curr;
 }
 
@@ -291,6 +312,20 @@ FUNC(OsEE_bool, OS_CODE)
   }
 #endif /* !OSEE_SINGLECORE */
 
+/******    Record th id of unblocked task to use it in OsTask_resuming macro */
+   p_resuming_id = p_tdb_released->tid;
+/*****************************************************************************/
+
+/**************************************ARTI TASK RELEASE *******************************************/
+#if (defined(AR_CP_OS_TASKSCHEDULER_OsTask_Release_NOSUSP))
+  SuspendAllInterrupts() ;
+  if (p_tdb_released->task_type != OSEE_TASK_TYPE_ISR2){
+    ARTI_TRACE(NOSUSP, AR_CP_OS_TASKSCHEDULER, OS_SHORT_NAME,
+        OS_CORE_ID, OsTask_Release,(uint32_t) (p_tdb_released->tid) );
+  }
+  ResumeAllInterrupts();
+#endif
+/***************************************************************************************************/
   return is_preemption;
 }
 

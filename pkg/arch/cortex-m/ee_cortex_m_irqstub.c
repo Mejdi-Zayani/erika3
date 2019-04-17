@@ -89,10 +89,27 @@ osEE_cortex_m_isr1_stub(
   VAR(OsEE_void_cb, AUTOMATIC)	f
 )
 {
-
+/**************************************ARTI ISR 1 START*******************************************/
+  /*      macro to record state transition to running         */ 
+#if (defined(AR_CP_OS_CAT1DISPATCHER_OsIsr1_Start_NOSUSP)) 
+  SuspendAllInterrupts() ;
+    ARTI_TRACE(NOSUSP, AR_CP_OS_CAT1DISPATCHER, OS_SHORT_NAME,
+            OS_CORE_ID, OsIsr1_Start, (uint32_t) f);
+  ResumeAllInterrupts();
+#endif
+/*************************************************************************************************/
   /* Call The ISR User Handler */
   f();
 
+/**************************************ARTI ISR 1 STOP*******************************************/
+  /*      macro to record state transition from running to terminated         */ 
+#if (defined(AR_CP_OS_CAT1DISPATCHER_OsIsr1_Stop_NOSUSP))
+  SuspendAllInterrupts() ;
+    ARTI_TRACE(NOSUSP, AR_CP_OS_CAT1DISPATCHER, OS_SHORT_NAME,
+            OS_CORE_ID, OsIsr1_Stop,(uint32_t) f);
+  ResumeAllInterrupts();
+#endif
+/*************************************************************************************************/
 }	/* osEE_cortex_m_isr1_stub() */
 
 /*
@@ -107,7 +124,15 @@ osEE_cortex_m_isr2_stub(
     p_orig_tdb = osEE_get_curr_core()->p_ccb->p_curr;
 
   OsEE_reg f = osEE_hal_begin_nested_primitive();
-
+/**************************************ARTI ISR2 START*******************************************/
+  /*      macro to record state transition to running          */ 
+#if (defined(AR_CP_OS_CAT2DISPATCHER_OsIsr2_Start_NOSUSP))
+  SuspendAllInterrupts() ;
+    ARTI_TRACE(NOSUSP, AR_CP_OS_CAT2DISPATCHER, OS_SHORT_NAME,
+            OS_CORE_ID, OsIsr2_Start,t);
+  ResumeAllInterrupts();
+#endif
+/*************************************************************************************************/
   /* Activate ISR2 */
   osEE_activate_isr2(t);
 

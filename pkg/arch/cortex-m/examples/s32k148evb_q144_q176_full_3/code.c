@@ -54,6 +54,8 @@
 
 /* HAL */
 #include "hal.h"
+/* arti*/
+#include "../erika/src/Arti.h"
 
 #include <stdio.h>
 #include <string.h>
@@ -228,7 +230,14 @@ TASK(Task2)
   task2_ended++;
 }
 
+/* Example of using Arti_Trace macro to record
+  the Start and END of TASK 3 ****/
 TASK(Task3) {
+  TaskType id_3;
+  GetTaskID(&id_3);
+
+  ARTI_TRACE(NOSUSP, AR_CP_OS_TASKSCHEDULER, OS_SHORT_NAME,
+            OS_CORE_ID, OsTask_Start,id_3);
   serial_print("TASK3\r\n");
 
   ++task3_fired;
@@ -236,6 +245,9 @@ TASK(Task3) {
   ActivateTask(Task4);
 
   ++task3_ended;
+
+  ARTI_TRACE(NOSUSP, AR_CP_OS_TASKSCHEDULER, OS_SHORT_NAME,
+              OS_CORE_ID, OsTask_Stop, id_3);
 }
 
 TASK(Task4) {

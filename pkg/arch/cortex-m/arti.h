@@ -39,6 +39,44 @@
 #define OS_CORE_ID (0)
 
 
+
+/*uncomment the following line to trace all task with start event*/
+//#define AR_CP_OS_TASKSCHEDULER_OsTask_Start_NOSUSP
+
+/*uncomment the following line to trace all task with stop event*/
+//#define AR_CP_OS_TASKSCHEDULER_OsTask_Stop_NOSUSP
+
+/*uncomment the following line to trace all task with activation event*/
+//#define AR_CP_OS_TASKSCHEDULER_OsTask_Activation_NOSUSP
+
+/*uncomment the following line to trace all task with waiting event*/
+//#define AR_CP_OS_TASKSCHEDULER_OsTask_Waiting_NOSUSP
+
+/*uncomment the following line to trace all task with Release event*/
+
+//#define AR_CP_OS_TASKSCHEDULER_OsTask_Release_NOSUSP
+
+/*uncomment the following line to trace all task with Resuming event*/
+
+//#define AR_CP_OS_TASKSCHEDULER_OsTask_Resuming_NOSUSP
+
+/*uncomment the following line to trace all ISR2 with start event*/
+
+//#define AR_CP_OS_CAT2DISPATCHER_OsIsr2_Start_NOSUSP
+
+/*uncomment the following line to trace all ISR2 with stop event*/
+
+//#define AR_CP_OS_CAT2DISPATCHER_OsIsr2_Stop_NOSUSP
+
+/*uncomment the following line to trace all ISR1 with start event*/
+
+//#define AR_CP_OS_CAT1DISPATCHER_OsIsr1_Start_NOSUSP
+
+/*uncomment the following line to trace all ISR1 with stop event*/
+
+//#define AR_CP_OS_CAT1DISPATCHER_OsIsr1_Stop_NOSUSP
+
+
 /********************************************************************/
 /* AR_CP_OS_TASKSCHEDULER */
 

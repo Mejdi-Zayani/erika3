@@ -71,6 +71,8 @@ void TraceImpl_AR_CP_OS_TASKSCHEDULER_OsTask_Start_NOSUSP(
 	(void) instanceName;
 	(void) instanceParameter;
 	(void) event_value;
+	// actual tracing code goes here
+
 
 }
 
@@ -104,7 +106,7 @@ void TraceImpl_AR_CP_OS_TASKSCHEDULER_OsTask_Resuming_NOSUSP(
 	(void) instanceName;
 	(void) instanceParameter;
 	(void) event_value;
-
+	// actual tracing code goes here
 }
 
 void TraceImpl_AR_CP_OS_TASKSCHEDULER_OsTask_Stop_SPRVSR(
@@ -137,7 +139,7 @@ void TraceImpl_AR_CP_OS_TASKSCHEDULER_OsTask_Stop_NOSUSP(
 	(void) instanceName;
 	(void) instanceParameter;
 	(void) event_value;
-
+	// actual tracing code goes here
 
 }
 
@@ -170,7 +172,7 @@ void TraceImpl_AR_CP_OS_TASKSCHEDULER_OsTask_Activation_NOSUSP(
 	(void) instanceName;
 	(void) instanceParameter;
 	(void) event_value;
-
+	// actual tracing code goes here
 
 }
 
@@ -202,7 +204,7 @@ void TraceImpl_AR_CP_OS_TASKSCHEDULER_OsTask_Waiting_NOSUSP(
 	(void) instanceName;
 	(void) instanceParameter;
 	(void) event_value;
-
+	// actual tracing code goes here
 }
 
 
@@ -236,8 +238,10 @@ void TraceImpl_AR_CP_OS_TASKSCHEDULER_OsTask_Release_NOSUSP(
 	(void) instanceName;
 	(void) instanceParameter;
 	(void) event_value;
+	// actual tracing code goes here
 
 }
+
 /**************** ISR 2  ************************/
 
 
@@ -274,7 +278,7 @@ void TraceImpl_AR_CP_OS_CAT2DISPATCHER_OsIsr2_Start_NOSUSP(
 	(void) instanceName;
 	(void) instanceParameter;
 	(void) event_value;
-
+	// actual tracing code goes here
 
 }
 
@@ -311,7 +315,8 @@ void TraceImpl_AR_CP_OS_CAT2DISPATCHER_OsIsr2_Stop_NOSUSP(
 	(void) instanceName;
 	(void) instanceParameter;
 	(void) event_value;
-
+	// actual tracing code goes here
+	
 }
 
 
@@ -352,7 +357,7 @@ void TraceImpl_AR_CP_OS_CAT1DISPATCHER_OsIsr1_Start_NOSUSP(
 	(void) instanceName;
 	(void) instanceParameter;
 	(void) event_value;
-
+	// actual tracing code goes here
 }
 
 void TraceImpl_AR_CP_OS_CAT1DISPATCHER_OsIsr1_Stop_SPRVSR(
@@ -387,5 +392,5 @@ void TraceImpl_AR_CP_OS_CAT1DISPATCHER_OsIsr1_Stop_NOSUSP(
 	(void) instanceName;
 	(void) instanceParameter;
 	(void) event_value;
-
+	// actual tracing code goes here
 }

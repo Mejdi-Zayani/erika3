@@ -60,4 +60,11 @@
 #include "ee_hal_internal.h"
 #include "ee_kernel.h"
 
+#include "arti.h"
+/******************************************
+Variable to strore the released task id to use it in 
+os_task_resuming hook macro
+*******************************************/
+extern uint32_t p_resuming_id ;
+
 #endif	/* !OSEE_INTERNAL_H */
